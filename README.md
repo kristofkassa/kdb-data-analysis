@@ -1,0 +1,1 @@
+Introduction to efficient data analysis with kdb+

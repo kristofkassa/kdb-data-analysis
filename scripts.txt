@@ -1,0 +1,10 @@
+trades:([id:`int$()];trade_date:`date$();trade_time:`time$();sym:`symbol$();price:`real$();size:`real$(); side:`symbol$())
+
+order_book:([]price:`real$();size:`real$(); side:`symbol$(); priority:`int$(); sym:`symbol$();inserted_ts:`timestamp$();event_ts:`timestamp$();message_ts:`timestamp$())
+
+futures:([]instrument_name:`symbol$(); volume_btc:`real$(); volume_usd:`real$(); last_price:`real$(); bid_price:`real$(); ask_price:`real$(); low:`real$(); high:`real$(); creation_timestamp:`timestamp$())
+
+Dashboard:
+`price xdesc select from order_book where priority > -10, priority < 10, inserted_ts = max inserted_ts
+
+select Time:trade_time, Open:first price, High:max price, Low:min price, Close:last price, Volume:sum size by sym, trade_time from trades
