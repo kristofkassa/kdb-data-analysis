@@ -3,13 +3,13 @@ from datetime import datetime, timezone
 import hashlib
 import hmac
 import json
-import logging
 import threading
 import time
 from typing import List
 from pydantic import BaseModel
 import websocket
 from qpython import qconnection
+import logging
 
 logging.basicConfig(filename='quotes.log', encoding='utf-8', level=logging.DEBUG)
 
@@ -81,7 +81,7 @@ class CoinbaseQuoteUpdates:
         self.websocket.send(json.dumps(subscribe_message))
 
     def _on_message(self, ws, message):
-        print("Quote update received.")
+        print("CoinbaseAdv Quote update received.")
         data = json.loads(message)
         quote_message = QuoteMessage.parse_obj(data)
 
@@ -101,7 +101,7 @@ class CoinbaseQuoteUpdates:
 
             elif event.type == "update":
                 logging.info("update received!")
-                # logging.info(quote_message)
+                logging.info(quote_message)
                 for update in event.updates:
                     # Update or remove price levels with incoming updates
                     if update.side == "bid":
@@ -143,8 +143,6 @@ class CoinbaseQuoteUpdates:
             else:
                 priority = i+1
 
-
-            # logging.info(f"Order {i+1}: Price level: {price_level}, Quantity: {details[0]}, Symbol: {details[1]}, Side: {details[2]}, Event Time: {details[3]}, Message Time: {details[4]}")
             q_quote = '`order_book upsert ({price}e; {size}e; `{side}; {priority}i; `{symbol}; {batch_ts}; {event_ts}; {message_ts})'.format(
                         price = float(price_level),
                         size = float(details[0]),

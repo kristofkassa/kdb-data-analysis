@@ -26,16 +26,6 @@ async def fetch_data():
                 if "result" in response_json:
                     result = response_json["result"]
                     for item in result:
-                        print("Instrument Name:", item["instrument_name"])
-                        print("Volume (BTC):", item["volume"])
-                        print("Volume (USD):", item["volume_usd"])
-                        print("Last Price:", item["last"])
-                        print("Bid Price:", item["bid_price"])
-                        print("Ask Price:", item["ask_price"])
-                        print("Low:", item["low"])
-                        print("High:", item["high"])
-                        print("Creation Timestamp:", item["creation_timestamp"])
-
                         # Convert 'creation_timestamp' from Unix timestamp (milliseconds) to datetime object
                         dt = datetime.fromtimestamp(int(item['creation_timestamp'])/1000.0)
 
@@ -53,18 +43,12 @@ async def fetch_data():
                                 high = float(item['high']),
                                 creation_timestamp = creation_timestamp
                                 )
-                        print(q_futures_data)
+                        print("Deribit Futures trade update received.")
                         # Send the data to the q server
                         q.sendSync(q_futures_data)
 
-                # Save the JSON response to a file
-                # with open("response.json", "w") as file:
-                #    json.dump(response_json, file)
-
-
-
         # Wait for 5 seconds before fetching the data again
-        await asyncio.sleep(5)
+        await asyncio.sleep(2)
 
 # Create an event loop and run the fetch_data function asynchronously
 loop = asyncio.get_event_loop()

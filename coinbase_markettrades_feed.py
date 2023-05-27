@@ -81,14 +81,13 @@ class CoinbaseTradeUpdates:
 
         def _on_message(self, ws, message):
             data = json.loads(message)
-            print("Trade update received.")
+            print("CoinbaseAdv Trade update received.")
             logging.info(data)
 
             for event in data['events']:
                 for trade in event['trades']:
                     # Extract the trade data
-                    q_trade_data = '`trades insert ({id}i; .z.D; .z.T; `{symbol}; {price}e; {size}e; `{side})'.format(
-                                id = trade['trade_id'],
+                    q_trade_data = '`trades insert (`{symbol}; {price}e; {size}e; `{side}; `CoinbaseAdv, .z.p)'.format(
                                 symbol = trade['product_id'].replace("-", ""),
                                 price = float(trade['price']),
                                 size = float(trade['size']),

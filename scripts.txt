@@ -1,4 +1,4 @@
-trades:([id:`int$()];trade_date:`date$();trade_time:`time$();sym:`symbol$();price:`real$();size:`real$(); side:`symbol$())
+trades:([]sym:`symbol$();price:`real$();size:`real$(); side:`symbol$(); exchange:`symbol$();trade_ts:`timestamp$())
 
 order_book:([]price:`real$();size:`real$(); side:`symbol$(); priority:`int$(); sym:`symbol$();inserted_ts:`timestamp$();event_ts:`timestamp$();message_ts:`timestamp$())
 
