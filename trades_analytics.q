@@ -1,17 +1,11 @@
+h:hopen `:localhost:5000;
 
 .z.ts: {
-    // The current time is obtained using .z.p (current datetime), then extracting the time part.
-    lastMinute: .z.p - 1D00:01;
+    
+    avgTrades: h("select price:size wavg price by exchange from (select from trades order by trade_ts desc limit 20)");
 
-    // Filter the trades for the last minute
-    recentTrades: select from trades where trade_ts within (lastMinute; .z.p);
-
-    // Calculate the moving average for each exchange
-    avgTrades: select price:size wavg price by exchange from recentTrades;
-
-    // Print the result
-    show avgTrades;
+    0N!"Average Trades: ";
+    0N!avgTrades;
     };
 
-// Set the timer to call the function every 10 seconds
-\t 10000
+\t 1000
